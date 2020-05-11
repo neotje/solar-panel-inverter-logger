@@ -18,8 +18,8 @@ npm run start
 mysql: {
     host: "sql server address",
     user: "username",
-    password: "password",
-    database: "database"
+    password: "user password",
+    database: "database name"
 }
 ```
 
@@ -30,7 +30,7 @@ devices: [
     "/dev/ttyUSB1"
 ],
 ```
-**note**: to see available serial ports on linux run: `dmesg | grep tty`
+**Note**: to see available serial ports on linux run: `dmesg | grep tty`
 
 ### Log
 ```
