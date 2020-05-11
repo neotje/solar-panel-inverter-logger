@@ -1,9 +1,9 @@
 const config = {
     mysql: {
-        host: "hopsrv01.hopjes.net:3306",
-        user: "meting",
-        password: "YENTemEr",
-        database: "omvormers"
+        host: "sql server address",
+        user: "username",
+        password: "password",
+        database: "database"
     },
     devices: [
         "/dev/ttyUSB0"//,
