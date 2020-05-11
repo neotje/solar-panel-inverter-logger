@@ -30,7 +30,7 @@ devices: [
     "/dev/ttyUSB1"
 ],
 ```
-to see available serial ports on linux run: `dmesg | grep tty`
+**note**: to see available serial ports on linux run: `dmesg | grep tty`
 
 ### Log
 ```
