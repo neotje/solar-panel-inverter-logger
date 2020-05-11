@@ -1,0 +1,24 @@
+{
+  "name": "solar-log",
+  "version": "1.0.0",
+  "description": "save solar panel performance logs to database.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "keywords": [
+    "solar",
+    "panels",
+    "pv",
+    "logger",
+    "serial",
+    "port"
+  ],
+  "author": "Neo Hop",
+  "license": "ISC",
+  "dependencies": {
+    "@serialport/list": "^8.0.7",
+    "mysql": "^2.18.1",
+    "sunrise-sunset-js": "^2.1.2"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "solarlogger",
+  "version": "1.0.0",
+  "description": "",
+  "main": "solarLogger.js",
+  "scripts": {
+    "test": "node solarLogger.js"
+  },
+  "author": "Neo Hop",
+  "license": "ISC"
+}
