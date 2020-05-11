@@ -1,17 +1,22 @@
 # solar-panel-inverter-logger
 Log chint power inverter serial output to sql database and generate graphs
 
-## install
+### Compatibility
+- Windows :x:
+- Linux :heavy_check_mark:
+- Mac :heavy_minus_sign:
+
+### install
 ```bash
 npm install
 ```
 
-## run
+### run
 ```
 npm run start
 ```
 
-## config
+# config
 
 ### MySQL settings
 ```
