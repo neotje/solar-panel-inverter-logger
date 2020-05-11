@@ -13,5 +13,4 @@ const config = {
     latitude: 51.9915,
     longitude: 5.9868
 }
-
 module.exports = config;
