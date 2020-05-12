@@ -21,7 +21,7 @@ exports.fromImportLogs = function fromImportLogs(callback) {
 
         if (file) {
             var path = p.join(__dirname, '/import-logs/', file);
-            console.log(i / lenght * 100, "%");
+            console.log(i / length * 100, "%");
             
             exports.importOne(path, loop);
         } else {
