@@ -2,12 +2,12 @@ const pv = require("./packages/pv");
 const solarLogger = require("./packages/solarLogger");
 const config = require("./config");
 const importer = require("./packages/CSVimporter");
-const path = require("path")
+const api = require("./packages/api");
+const path = require("path");
 
 var intervals = [];
 
 console.log(config);
-
 
 for (const device of config.devices) {
     intervals.push(pv.reportInterval(device, config.interval, (report, err)=>{
@@ -27,3 +27,6 @@ if (config.import == true) {
         
     });
 }
+
+api.startApiServer();
+

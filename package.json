@@ -19,6 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "@serialport/list": "^8.0.7",
+    "express": "^4.17.1",
     "mysql": "^2.18.1",
     "sunrise-sunset-js": "^2.1.2"
   }

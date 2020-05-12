@@ -71,18 +71,20 @@ function savePVreport(report, callback) {
 
 function getSerialNumberList(callback) {
     con.query('show tables', (err, res) => {
-        callback(res);
+        var arr = []
+
+        for (const row of res) {
+            arr.push(row[Object.keys(row)[0]]);
+        }
+        callback(arr);
     });
 }
 
 function getDayFromDevice(serial, day, callback) {
-    var start = day.getUTCSeconds();
+    var start = day.getTime();
 
     day.setDate(day.getDate() + 1)
     var end = day.getTime();
-
-    console.log(start, end);
-
 
     var sql = `
     SELECT * FROM ${serial} 
