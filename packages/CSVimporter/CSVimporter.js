@@ -16,7 +16,7 @@ exports.fromImportLogs = function fromImportLogs(callback) {
 
     var i = 0;
     let loop = () => {
-        var file = files[i];
+        var file = files[i];        
 
         if (file) {
             var path = p.join(__dirname, '/import-logs/', file);
@@ -28,6 +28,8 @@ exports.fromImportLogs = function fromImportLogs(callback) {
         
         i++;
     }
+
+    loop();
 }
 
 exports.importOne = function importOne(path, callback) {
