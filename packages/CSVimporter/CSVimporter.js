@@ -11,7 +11,7 @@ var con = mysql.createConnection(config.mysql);
 exports.fromImportLogs = function fromImportLogs(callback) {
     var files = fs.readdirSync(p.join(__dirname, '/import-logs/'));
 
-    console.log(p.join(__dirname, '/import-logs/'));
+    console.log(p.join(__dirname, '/import-logs/'), files);
     
 
     var i = 0;
