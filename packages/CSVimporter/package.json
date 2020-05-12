@@ -1,0 +1,11 @@
+{
+  "name": "CSVimporter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "CSVimporter.js",
+  "scripts": {
+    "test": "node CSVimporter.js"
+  },
+  "author": "Neo Hop",
+  "license": "ISC"
+}

@@ -1,6 +1,8 @@
 const pv = require("./packages/pv");
 const solarLogger = require("./packages/solarLogger");
 const config = require("./config");
+const importer = require("./packages/CSVimporter");
+const path = require("path")
 
 var intervals = [];
 
@@ -17,7 +19,4 @@ for (const device of config.devices) {
     console.log(`started report interval for: ${device}`);
 }
 
-solarLogger.getDayReportFromDevice('1304DP0010', new Date(2020, 4, 6), res => {
-    console.log(res);
-})
-
+importer.importOne(path.join(__dirname, 'inverter_1104DN0518_20190316.csv'));

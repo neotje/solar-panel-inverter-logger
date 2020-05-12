@@ -16,66 +16,55 @@ var con = mysql.createConnection(config.mysql);
  */
 
 function savePVreport(report, callback) {
-    // check connection
-    con.connect(err => {
-        if (err) {
-            console.log(err);
-            
-            callback(err)
-        } else {
-            // create table
-            var sql = `CREATE TABLE \`${report.serial}\` (
-                time INT(255),
-                TEMP FLOAT(24),
-                ETODAY FLOAT(24),
-                IAC FLOAT(24),
-                VAC FLOAT(24),
-                FAC FLOAT(24),
-                PAC FLOAT(24),
-                ZAC FLOAT(24),
-                ETOTAL FLOAT(24),
-                HTOTAL FLOAT(24),
-                MODE FLOAT(24)
-            )`;
+    // create table
+    var sql = `CREATE TABLE \`${report.serial}\` (
+        time BIGINT(255),
+        TEMP FLOAT(24),
+        ETODAY FLOAT(24),
+        IAC FLOAT(24),
+        VAC FLOAT(24),
+        FAC FLOAT(24),
+        PAC FLOAT(24),
+        ZAC FLOAT(24),
+        ETOTAL FLOAT(24),
+        HTOTAL FLOAT(24),
+        MODE FLOAT(24)
+    )`;
 
-            con.query(sql, (err, result) => {
-                console.log(err);
+    con.query(sql, (err, result) => {
+        // insert data into the table
+        var sql = `
+        INSERT INTO \`${report.serial}\` (
+            time,
+            TEMP,
+            ETODAY,
+            IAC,
+            VAC,
+            FAC,
+            PAC,
+            ZAC,
+            ETOTAL,
+            HTOTAL,
+            MODE
+        ) VALUES (
+            ${report.time},
+            ${report.TEMP},
+            ${report.ETODAY},
+            ${report.IAC},
+            ${report.VAC},
+            ${report.FAC},
+            ${report.PAC},
+            ${report.ZAC},
+            ${report.ETOTAL},
+            ${report.HTOTAL},
+            ${report.MODE}
+        )`;
 
-                // insert data into the table
-                var sql = `
-                INSERT INTO \`${report.serial}\` (
-                    time,
-                    TEMP,
-                    ETODAY,
-                    IAC,
-                    VAC,
-                    FAC,
-                    PAC,
-                    ZAC,
-                    ETOTAL,
-                    HTOTAL,
-                    MODE
-                ) VALUES (
-                    ${report.time},
-                    ${report.TEMP},
-                    ${report.ETODAY},
-                    ${report.IAC},
-                    ${report.VAC},
-                    ${report.FAC},
-                    ${report.PAC},
-                    ${report.ZAC},
-                    ${report.ETOTAL},
-                    ${report.HTOTAL},
-                    ${report.MODE}
-                )`;
-
-                con.query(sql, (err) => {
-                    if (err) return callback(err);
-                    callback();
-                });
-            });
-        }
-    })
+        con.query(sql, (err) => {
+            if (err) return callback(err);
+            callback();
+        });
+    });
 
 
 }
