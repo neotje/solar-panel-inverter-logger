@@ -15,6 +15,8 @@ npm install
 ```
 npm run start
 ```
+# docs
+the docs for the packages in /packages: [https://neotje.github.io/solar-panel-inverter-logger/](https://neotje.github.io/solar-panel-inverter-logger/)
 
 # config
 
