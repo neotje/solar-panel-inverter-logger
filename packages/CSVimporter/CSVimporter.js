@@ -49,7 +49,7 @@ exports.importOne = function importOne(path, callback) {
 
     // create table
     var sql = `CREATE TABLE \`${serialNumber}\` (
-        time BIGINT(255),
+        time BIGINT(255) UNIQUE,
         TEMP FLOAT(24),
         ETODAY FLOAT(24),
         IAC FLOAT(24),

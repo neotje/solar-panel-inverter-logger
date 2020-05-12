@@ -18,7 +18,7 @@ var con = mysql.createConnection(config.mysql);
 function savePVreport(report, callback) {
     // create table
     var sql = `CREATE TABLE \`${report.serial}\` (
-        time BIGINT(255),
+        time BIGINT(255) UNIQUE,
         TEMP FLOAT(24),
         ETODAY FLOAT(24),
         IAC FLOAT(24),
