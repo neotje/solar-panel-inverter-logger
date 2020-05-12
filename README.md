@@ -57,3 +57,6 @@ import: true // import csv files from ./packages/CSVimporter/import-logs
 ```
 port: 3000 // The port on which the API will listen for requests
 ```
+
+# Thanks
+[Henk vergenot](https://github.com/hvegh) for the script to read out CMS2000 devices [PV-LOGGER](https://github.com/hvegh/PV-Logger.git) 
