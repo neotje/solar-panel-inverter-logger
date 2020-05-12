@@ -19,7 +19,7 @@ exports.fromImportLogs = function fromImportLogs(callback) {
         var file = files[i];
 
         if (file) {
-            var path = p.join('./import-logs', file);
+            var path = p.join(__dirname, '/import-logs/', file);
 
             exports.importOne(path, loop);
         } else {
