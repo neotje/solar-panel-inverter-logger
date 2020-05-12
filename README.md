@@ -52,3 +52,8 @@ import: true // import csv files from ./packages/CSVimporter/import-logs
 ```
 **Note**: see inverter_1104DN0518_20190316.example.csv on how to format csv file.
 **Note**: filename formate `inverter_{serialnumber}_something other stuff.csv`
+
+### API
+```
+port: 3000 // The port on which the API will listen for requests
+```

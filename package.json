@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "install": "./install.sh"
+    "install": "./install.sh",
+    "docs": "./node_modules/.bin/jsdoc -c jsdoc.json"
   },
   "keywords": [
     "solar",
@@ -22,5 +23,8 @@
     "express": "^4.17.1",
     "mysql": "^2.18.1",
     "sunrise-sunset-js": "^2.1.2"
+  },
+  "devDependencies": {
+    "jsdoc": "^3.6.4"
   }
 }
