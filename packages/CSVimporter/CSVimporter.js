@@ -96,6 +96,8 @@ exports.importOne = function importOne(path, callback) {
         
 
         con.query(query, (err) => {
+            console.log(err);
+            
             if (err) return callback(err);
             callback();
         });
