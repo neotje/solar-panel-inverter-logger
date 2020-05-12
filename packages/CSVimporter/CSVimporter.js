@@ -40,27 +40,64 @@ exports.importOne = function importOne(path, callback) {
 
     var table = parseCSV(fileContent);
 
-    var i = 0;
+    var query ='';
 
-    let loop = (err) => {
-        if (err) console.log(err);
 
-        var row = table[i];
+    // create table
+    var sql = `CREATE TABLE \`${serialNumber}\` (
+        time BIGINT(255),
+        TEMP FLOAT(24),
+        ETODAY FLOAT(24),
+        IAC FLOAT(24),
+        VAC FLOAT(24),
+        FAC FLOAT(24),
+        PAC FLOAT(24),
+        ZAC FLOAT(24),
+        ETOTAL FLOAT(24),
+        HTOTAL FLOAT(24),
+        MODE FLOAT(24)
+    )`;
 
-        if (row) {
-            row.time = parseInt(row.time) * 1000;
-            console.log(row.time);
-            
-            row.serial = serialNumber;
-            logger.savePVreport(row, loop);
-        } else {
-            return callback();
+    con.query(sql, (err, result) => {
+        
+        for (const report of table) {
+            report.time = parseInt(report.time) * 1000;
+            report.serial = serialNumber;
+
+            query += `
+            INSERT INTO \`${report.serial}\` (
+                time,
+                TEMP,
+                ETODAY,
+                IAC,
+                VAC,
+                FAC,
+                PAC,
+                ZAC,
+                ETOTAL,
+                HTOTAL,
+                MODE
+            ) VALUES (
+                ${report.time},
+                ${report.TEMP},
+                ${report.ETODAY},
+                ${report.IAC},
+                ${report.VAC},
+                ${report.FAC},
+                ${report.PAC},
+                ${report.ZAC},
+                ${report.ETOTAL},
+                ${report.HTOTAL},
+                ${report.MODE}
+            );`;
         }
+        
 
-        i++;
-    }
-
-    loop(undefined);
+        con.query(query, (err) => {
+            if (err) return callback(err);
+            callback();
+        });
+    });
 }
 
 function parseCSV(csv) {

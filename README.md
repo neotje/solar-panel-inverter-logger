@@ -45,3 +45,10 @@ interval: 6000, // log to database every x ms.
 latitude: 51.9915,
 longitude: 5.9868
 ```
+
+### Import
+```
+import: true // import csv files from ./packages/CSVimporter/import-logs
+```
+**Note**: see inverter_1104DN0518_20190316.example.csv on how to format csv file.
+**Note**: filename formate `inverter_{serialnumber}_something other stuff.csv`
