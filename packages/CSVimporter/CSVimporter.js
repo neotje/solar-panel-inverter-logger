@@ -42,6 +42,8 @@ exports.importOne = function importOne(path, callback) {
 
     var query ='';
 
+    console.log(fileName);
+
 
     // create table
     var sql = `CREATE TABLE \`${serialNumber}\` (
