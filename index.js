@@ -6,6 +6,8 @@ const path = require("path")
 
 var intervals = [];
 
+console.log(config);
+
 
 for (const device of config.devices) {
     intervals.push(pv.reportInterval(device, config.interval, (report, err)=>{
