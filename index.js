@@ -19,4 +19,9 @@ for (const device of config.devices) {
     console.log(`started report interval for: ${device}`);
 }
 
-importer.importOne(path.join(__dirname, 'inverter_1104DN0518_20190316.csv'));
+if (config.import == true) {
+    importer.fromImportLogs(()=>{
+        console.log('done!');
+        
+    });
+}
