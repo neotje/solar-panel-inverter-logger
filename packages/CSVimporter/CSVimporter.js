@@ -15,12 +15,14 @@ exports.fromImportLogs = function fromImportLogs(callback) {
     
 
     var i = 0;
+    var length = files.length;
     let loop = () => {
         var file = files[i];        
 
         if (file) {
             var path = p.join(__dirname, '/import-logs/', file);
-
+            console.log(i / lenght * 100, "%");
+            
             exports.importOne(path, loop);
         } else {
             callback();
@@ -95,9 +97,7 @@ exports.importOne = function importOne(path, callback) {
         }
         
 
-        con.query(query, (err) => {
-            console.log(err);
-            
+        con.query(query, (err) => {            
             if (err) return callback(err);
             callback();
         });
