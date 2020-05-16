@@ -12,8 +12,11 @@ console.log(config);
 for (const device of config.devices) {
     intervals.push(pv.reportInterval(device, config.interval, (report, err)=>{
         if (!err) {
+            
             solarLogger.savePVreport(report, (err) => {
-                if(err) console.error(err);
+                if(err) {console.error(err);} else {
+                    console.log(`saved report from device: ${report.serial}`);
+                }
             });   
         }
     }));
