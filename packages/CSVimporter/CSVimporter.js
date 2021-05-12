@@ -6,7 +6,6 @@ const logger = require("../solarLogger");
 
 const config = require('../../config');
 
-var con = mysql.createConnection(config.mysql);
 
 /**
  * @module CSVimporter
@@ -50,6 +49,8 @@ exports.fromImportLogs = function fromImportLogs(callback) {
  * @param {Function} callback simple callback can return an error.
  */
 exports.importOne = function importOne(path, callback) {
+    var con = mysql.createConnection(config.mysql);
+
     var fileName = p.basename(path);
     var serialNumber = fileName.split("_")[1];
 
@@ -114,6 +115,7 @@ exports.importOne = function importOne(path, callback) {
 
         con.query(query, (err) => {            
             if (err) return callback(err);
+            con.end();
             callback();
         });
     });

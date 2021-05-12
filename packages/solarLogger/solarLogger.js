@@ -7,7 +7,6 @@ const mysql = require('mysql');
  * @module solarLogger
  */
 
-var con = mysql.createConnection(config.mysql);
 
 /**
  * save pv report to sql database.
@@ -16,6 +15,8 @@ var con = mysql.createConnection(config.mysql);
  */
 
 function savePVreport(report, callback) {
+    var con = mysql.createConnection(config.mysql);
+
     // create table
     var sql = `CREATE TABLE \`${report.serial}\` (
         time BIGINT(255) UNIQUE,
@@ -61,6 +62,7 @@ function savePVreport(report, callback) {
         )`;
 
         con.query(sql, (err) => {
+            con.end()
             if (err) return callback(err);
             callback();
         });
@@ -74,12 +76,15 @@ function savePVreport(report, callback) {
  * @param {Function} callback callback(arr).
  */
 function getSerialNumberList(callback) {
+    var con = mysql.createConnection(config.mysql);
+
     con.query('show tables', (err, res) => {
         var arr = []
 
         for (const row of res) {
             arr.push(row[Object.keys(row)[0]]);
         }
+        con.end();
         callback(arr);
     });
 }
@@ -91,6 +96,8 @@ function getSerialNumberList(callback) {
  * @param {Function} callback array of data.
  */
 function getDayFromDevice(serial, day, callback) {
+    var con = mysql.createConnection(config.mysql);
+
     var start = day.getTime();
 
     day.setDate(day.getDate() + 1)
@@ -101,6 +108,7 @@ function getDayFromDevice(serial, day, callback) {
     WHERE time BETWEEN ${start} AND ${end}`;
 
     con.query(sql, (err, res) => {
+        con.end();
         callback(res);
     });
 }
