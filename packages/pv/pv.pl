@@ -7,7 +7,7 @@ use HTTP::Request::Common;
 use Device::SerialPort qw (:STAT);
 use Switch;
 
-use lib qw(lib);
+use lib qw(./lib);
 
 use DeviceCMS2000;
 use CMS2000emul;

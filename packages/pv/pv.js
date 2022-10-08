@@ -13,6 +13,7 @@ const config = require('../../config');
  * @param {pvReportCallback} callback 
  */
 function getReport(device, callback) {
+    console.log(__dirname);
     exec(
         `perl ./pv.pl get ${device}`,
         { cwd: __dirname },
