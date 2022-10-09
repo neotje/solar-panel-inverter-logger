@@ -26,7 +26,7 @@ use DateTime;
 my %conf = (
 	default_hostaddr => 0x100,
 );
-my $_debug = 0;
+my $_debug = 1;
 my %_devicelist;
 
 #my %unit = (
@@ -279,6 +279,8 @@ sub new {
 	}
 	$_devicelist{$i} = $self;
 	$self->{devaddr} = $i;
+  print($self->{devaddr});
+  print("\n");
 	$self->{hostaddr} = $conf{default_hostaddr} unless $self->{hostaddr};
 	$self->{status} = 0;
 
@@ -294,8 +296,10 @@ sub new {
 # parameters: hostaddr, deviceaddr, opcode, parameter
 sub _txpkt
 {
-	my $self = shift;
-	my $pkt = pack('nnnnC/a*', 0xaaaa, @_);
+  # @_ = ($obj, $args...)
+	my $self = shift; # get obj from @_
+	my $pkt = pack('nnnnC/a*', 0xaaaa, @_); 
+  # unpack('%C*', $pkt) Adds sum of bytes to the end
 	my $c = $self->{link}->write($pkt.pack('n', unpack('%C*', $pkt)));
 	return $c;
 }
@@ -380,6 +384,8 @@ sub call
 	# set parameters
 	my $dat = '';
 	$dat = pack($tf, (map { $self->{$_} } @$tp)) if $tf;
+
+  print "$dat\n" if $_debug;
 
 	# set device source and destination address
 	$ta = $da unless defined $ta;

@@ -40,7 +40,6 @@ switch($command) {
         $link->rts_active(1);		# set power to ---
 
         my $device = new DeviceCMS2000(link => $link, serialnumber => $serialnumber);
-
         my $data = $device->Status;
 
         print("serial|", join('|', $data->select(undef, 'key')), "\n");
