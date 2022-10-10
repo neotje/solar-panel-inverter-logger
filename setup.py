@@ -9,7 +9,7 @@ PROJECT_GITHUB_USERNAME = "neotje"
 PACKAGES = find_packages()
 
 REQUIRED = [
-    "paho-mqtt>=1.5.1",
+    "paho-mqtt>=1.6.1",
     "pyserial>=3.5"
 ]
 
