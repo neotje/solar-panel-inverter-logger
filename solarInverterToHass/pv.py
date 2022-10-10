@@ -165,17 +165,22 @@ class PVConnector:
         response = self._call(
             PVPacket(self._hostAddr, 0, SET_DEVICE_ADDR_COMMAND, payload))
 
-        return response.payload[0] == 0x01
+        result = response.payload[0] == 0x01
 
-    def getStatusFormat(self, deviceAddr: int):
-        response = self._call(PVPacket(self._hostAddr, deviceAddr,
+        if result:
+          self._deviceAddr = addr
+        
+        return result
+
+    def getStatusFormat(self):
+        response = self._call(PVPacket(self._hostAddr, self._deviceAddr,
                                        GET_STATUS_FORMAT_COMMAND, b''))
 
         return response.payload[1:-1]
 
-    def getStatus(self, deviceAddr: int):
+    def getStatus(self):
         response = self._call(
-            PVPacket(self._hostAddr, deviceAddr, GET_STATUS_COMMAND, b''))
+            PVPacket(self._hostAddr, self._deviceAddr, GET_STATUS_COMMAND, b''))
 
         return response.payload[1:-1]
 
