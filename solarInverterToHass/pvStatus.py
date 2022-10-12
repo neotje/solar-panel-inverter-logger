@@ -41,12 +41,18 @@ MODE_STATUS = StatusField("Internal temperature",
                           "MODE", "", 0.1, [0x4c], "!H")
 
 
+class PVStatusDecoderException(Exception):
+    pass
+
 class PVStatusDecoder:
     def __init__(self, statusFields: list, format: bytes = b'') -> None:
         self.statusFields = statusFields
         self.format = format
 
     def fromBytes(self, status: bytes) -> dict:
+        if len(status) < len(self.format):
+            raise PVStatusDecoderException()
+
         statusObject = {}
 
         for i, dataKey in enumerate(self.format):

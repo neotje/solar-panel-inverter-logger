@@ -111,6 +111,11 @@ class PVConnector:
         self._isConnected = False
         self._hostAddr = hostAddr
         self._deviceAddr = 0
+        self._serial = None
+
+    @property
+    def serial(self):
+        return self._serial
 
     def connect(self, port: str) -> bool:
         if self._port.is_open:
@@ -169,6 +174,7 @@ class PVConnector:
 
         if result:
           self._deviceAddr = addr
+          self._serial = serial
         
         return result
 
