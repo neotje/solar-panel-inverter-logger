@@ -21,16 +21,20 @@ def connectPV(port: str, deviceAddr: int) -> PVConnector:
     if not conn.connect(port):
         raise ConnectPVException("Failed to open the serial port")
 
-    conn.reset()
-    serial = conn.getSerialNumber()
-
-    if serial is None:
-        raise ConnectPVException("Failed to get serial number from PV")
-
-    if not conn.setDeviceAddress(serial[0], deviceAddr):
-        raise ConnectPVException("Failed to ")
-
     return conn
+
+
+def reconnectPV(conn: PVConnector) -> bool:
+    try:
+        conn.reset()
+        serial = conn.getSerialNumber()
+
+        if serial is None:
+            return False
+
+        return conn.setDeviceAddress(serial[0], conn.deviceAddress)
+    except Exception:
+        return False
 
 
 def connectMQTT(host, port) -> mqtt.Client:
@@ -75,8 +79,11 @@ def main():
                            help="Report interval in seconds", default=60)
 
     args = argParser.parse_args()
-
+    
     pvConn = connectPV(args.device, 1)
+    while not reconnectPV(pvConn):
+        print("Reconnecting...")
+        sleep(60)
     print("Connected to PV")
 
     mqttClient = connectMQTT(args.mqttHost, args.mqttPort)
@@ -102,6 +109,10 @@ def main():
             except Exception as e:
                 print(e)
                 sensor.setOnline(False)
+                
+                while not reconnectPV(pvConn):
+                    print("Reconnecting...")
+                    sleep(60)
 
             sleep(args.interval)
     except KeyboardInterrupt:

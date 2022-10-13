@@ -117,6 +117,10 @@ class PVConnector:
     def serial(self):
         return self._serial
 
+    @property
+    def deviceAddress(self):
+        return self._deviceAddr
+
     def connect(self, port: str) -> bool:
         if self._port.is_open:
             self._port.close()
