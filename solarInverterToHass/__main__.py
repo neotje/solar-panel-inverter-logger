@@ -37,8 +37,12 @@ def reconnectPV(conn: PVConnector) -> bool:
         return False
 
 
-def connectMQTT(host, port) -> mqtt.Client:
+def connectMQTT(host, port, user = None, password = None) -> mqtt.Client:
     client = mqtt.Client()
+
+    if user is not None:
+        client.username_pw_set(user, password)
+
     client.connect(host, port)
 
     return client
@@ -77,6 +81,10 @@ def main():
                            help="MQTT broker port", default=1883)
     argParser.add_argument("-i", "--interval", type=int,
                            help="Report interval in seconds", default=60)
+    argParser.add_argument("-u", "--user", type=str,
+                           help="MQTT username", default=None)
+    argParser.add_argument("-P", "--password", type=str,
+                            help="MQTT password", default=None)
 
     args = argParser.parse_args()
     
@@ -86,7 +94,7 @@ def main():
         sleep(60)
     print("Connected to PV")
 
-    mqttClient = connectMQTT(args.mqttHost, args.mqttPort)
+    mqttClient = connectMQTT(args.mqttHost, args.mqttPort, args.user, args.password)
     print("MQTT Connected")
 
     sensor = createPVEnergySensor(pvConn, mqttClient)
