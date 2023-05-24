@@ -21,21 +21,16 @@ def connectPV(port: str, deviceAddr: int) -> PVConnector:
     if not conn.connect(port):
         raise ConnectPVException("Failed to open the serial port")
 
+    conn.reset()
+    serial = conn.getSerialNumber()
+
+    if serial is None:
+        raise ConnectPVException("No serial number found")
+
+    if not conn.setDeviceAddress(serial[0], deviceAddr):
+        raise ConnectPVException("Could not set device address")
+
     return conn
-
-
-def reconnectPV(conn: PVConnector) -> bool:
-    try:
-        conn.reset()
-        serial = conn.getSerialNumber()
-
-        if serial is None:
-            return False
-
-        return conn.setDeviceAddress(serial[0], conn.deviceAddress)
-    except Exception:
-        return False
-
 
 def connectMQTT(host, port, user = None, password = None) -> mqtt.Client:
     client = mqtt.Client()
@@ -87,48 +82,48 @@ def main():
                             help="MQTT password", default=None)
 
     args = argParser.parse_args()
-    
-    pvConn = connectPV(args.device, 1)
-    while not reconnectPV(pvConn):
-        print("Reconnecting...")
-        sleep(60)
-    print("Connected to PV")
 
-    mqttClient = connectMQTT(args.mqttHost, args.mqttPort, args.user, args.password)
-    print("MQTT Connected")
+    while True:
+        sensor = None
+        pvConn = None
+        mqttClient = None
 
-    sensor = createPVEnergySensor(pvConn, mqttClient)
-    statusDecoder= createStatusDecoder(pvConn)
+        try:
+            pvConn = connectPV(args.device, 1)
+            mqttClient = connectMQTT(args.mqttHost, args.mqttPort, args.user, args.password)
+            
+            statusDecoder = createStatusDecoder(pvConn)
 
-    sensor.discovery()
-    sensor.setOnline(False)
+            sensor = createPVEnergySensor(pvConn, mqttClient)
+            sensor.discovery()
 
-    print("Starting interval")
-    try:
-        while True:
-            try:
-                status = statusDecoder.fromBytes(pvConn.getStatus())
-                if not ETODAY_STATUS.key in status or status.get(ETODAY_STATUS.key) is None:
-                    raise Exception("ETODAY is empty")
+            status = statusDecoder.fromBytes(pvConn.getStatus())
 
-                sensor.setOnline(True)
-                sensor.setState(status.get(ETODAY_STATUS.key))
-                print(status)
-            except Exception as e:
-                print(e)
+            if not ETODAY_STATUS.key in status or status.get(ETODAY_STATUS.key) is None:
+                raise Exception("ETODAY is empty")
+
+            sensor.setOnline(True)
+            sensor.setState(status.get(ETODAY_STATUS.key))
+            print(status)
+
+        except KeyboardInterrupt:
+            if sensor is not None:
                 sensor.setOnline(False)
-                
-                while not reconnectPV(pvConn):
-                    print("Reconnecting...")
-                    sleep(60)
 
-            sleep(args.interval)
-    except KeyboardInterrupt:
-        pass
+            if pvConn is not None:
+                pvConn.close()
 
-    pvConn.close()
-    mqttClient.loop_stop()
+            if mqttClient is not None:
+                mqttClient.loop_stop()
 
+            break
+        except Exception as e:
+            print(e)
+
+            if sensor is not None:
+                sensor.setOnline(False)
+
+        sleep(args.interval)
 
 if __name__ == "__main__":
     main()
